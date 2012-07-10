@@ -24,6 +24,8 @@ AC_DEFUN([RTEMS_CHECK_BSPDIR],
     AC_CONFIG_SUBDIRS([lpc32xx]);;
   nds )
     AC_CONFIG_SUBDIRS([nds]);;
+  omap4m3 )
+    AC_CONFIG_SUBDIRS([omap4m3]);;
   rtl22xx )
     AC_CONFIG_SUBDIRS([rtl22xx]);;
   smdk2410 )

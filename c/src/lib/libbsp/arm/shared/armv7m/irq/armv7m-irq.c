@@ -39,14 +39,20 @@ rtems_status_code bsp_interrupt_vector_disable(rtems_vector_number vector)
 rtems_status_code bsp_interrupt_facility_initialize(void)
 {
   int i;
+#ifndef AVOID_COPYING_VECTOR_TABLE
+  ARMV7M_Exception_handler *vector_table = (ARMV7M_Exception_handler *)0x0;
+#else
   ARMV7M_Exception_handler *vector_table =
     (ARMV7M_Exception_handler *) bsp_vector_table_begin;
+#endif
 
+#ifndef AVOID_COPYING_VECTOR_TABLE
   memcpy(
     vector_table,
     bsp_start_vector_table_begin,
     (size_t) bsp_vector_table_size
   );
+#endif
 
   for (i = BSP_INTERRUPT_VECTOR_MIN; i <= BSP_INTERRUPT_VECTOR_MAX; ++i) {
     vector_table [ARMV7M_VECTOR_IRQ(i)] = _ARMV7M_NVIC_Interrupt_dispatch;
