@@ -1,7 +1,3 @@
-2012-07-10	Xi Yang <hiyangxi@gmail.com>
-
-	* acinclude.m4: Added omap4mp3 BSP.
-	
 2011-11-08	Sebastian Huber <sebastian.huber@embedded-brains.de>
 
 	* shared/startup/bsp-start-copy-sections.c,

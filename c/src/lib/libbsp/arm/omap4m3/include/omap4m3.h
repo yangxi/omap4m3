@@ -1,13 +1,5 @@
 /*
  * Copyright (c) 2012 Xi Yang (hiyangxi@gmail.com).  All rights reserved.
- * Copyright (c) 2011 Sebastian Huber.  All rights reserved.
- *
- *  embedded brains GmbH
- *  Obere Lagerstr. 30
- *  82178 Puchheim
- *  Germany
- *  <rtems@embedded-brains.de>
- *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
  * http://www.rtems.com/license/LICENSE.
@@ -46,61 +38,60 @@ extern "C" {
 #define TYPE_TRACE       2
 #define TYPE_VDEV  3
 
-  typedef unsigned int u32;
 
   struct fw_rsc_carveout {
-    u32 type;
-    u32 da;
-    u32 pa;
-    u32 len;
-    u32 flags;
-    u32 reserved;
+    unsigned int type;
+    unsigned int da;
+    unsigned int pa;
+    unsigned int len;
+    unsigned int flags;
+    unsigned int reserved;
     char name[32];
   };
 
   struct fw_rsc_devmem {
-    u32 type;
-    u32 da;
-    u32 pa;
-    u32 len;
-    u32 flags;
-    u32 reserved;
+    unsigned int type;
+    unsigned int da;
+    unsigned int pa;
+    unsigned int len;
+    unsigned int flags;
+    unsigned int reserved;
     char name[32];
   };
 
   struct fw_rsc_trace {
-    u32 type;
-    u32 da;
-    u32 len;
-    u32 reserved;
+    unsigned int type;
+    unsigned int da;
+    unsigned int len;
+    unsigned int reserved;
     char name[32];
   };
 
   struct fw_rsc_vdev_vring {
-    u32 da; /* device address */
-    u32 align;
-    u32 num;
-    u32 notifyid;
-    u32 reserved;
+    unsigned int da; /* device address */
+    unsigned int align;
+    unsigned int num;
+    unsigned int notifyid;
+    unsigned int reserved;
   };
 
   struct fw_rsc_vdev {
-    u32 type;
-    u32 id;
-    u32 notifyid;
-    u32 dfeatures;
-    u32 gfeatures;
-    u32 config_len;
+    unsigned int type;
+    unsigned int id;
+    unsigned int notifyid;
+    unsigned int dfeatures;
+    unsigned int gfeatures;
+    unsigned int config_len;
     char status;
     char num_of_vrings;
     char reserved[2];
   };
 
   struct resource_table {
-    u32 version;
-    u32 num;
-    u32 reserved[2];
-    u32 offset[3];
+    unsigned int version;
+    unsigned int num;
+    unsigned int reserved[2];
+    unsigned int offset[3];
     /* data carveout entry */
     struct fw_rsc_carveout data_cout;
     struct fw_rsc_devmem l4_wkup;

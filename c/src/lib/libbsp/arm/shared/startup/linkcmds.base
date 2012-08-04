@@ -297,9 +297,6 @@ SECTIONS {
 	.iplt : {
 		*(.iplt)
 	} > REGION_RODATA AT > REGION_RODATA_LOAD
-	.resource_table : {
-		*(.resource_table)
-	} > REGION_RODATA AT > REGION_RODATA_LOAD
 	.robsdsets : {
 		/* Special FreeBSD linker set sections */
 		__start_set_sysctl_set = .;

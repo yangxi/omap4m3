@@ -1,13 +1,5 @@
 /*
  * Copyright (c) 2012 Xi Yang (hiyangxi@gmail.com).  All rights reserved.
- * Copyright (c) 2011 Sebastian Huber.  All rights reserved.
- *
- *  embedded brains GmbH
- *  Obere Lagerstr. 30
- *  82178 Puchheim
- *  Germany
- *  <rtems@embedded-brains.de>
- *
  * The license and distribution terms for this file may be
  * found in the file LICENSE in this distribution or at
  * http://www.rtems.com/license/LICENSE.
@@ -25,12 +17,11 @@
 /*When Linux loads the ELF image to remote M3 cores, it checks ".resource_table"
   section to load the image correctly*/
 
-__attribute__ ((section(".resource_table")))
-struct resource_table resources = {
-  1, /* we're the first version that implements this */
+const static struct resource_table resources __attribute__ ((used,section(".resource_table"))) = {
+  1, /* 1st version */
   3, /* number of entries in the table */
-  0, 0, /* reserved, must be zero */
-	/* offsets to entries */
+  0, 0, /* reserved */
+	/* offsets */
   {
     (unsigned int)(&(((struct resource_table *)(0))->data_cout)),
     (unsigned int)(&(((struct resource_table *)(0))->l4_wkup)),
