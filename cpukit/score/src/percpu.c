@@ -31,7 +31,7 @@
     /*
      *  Initialize per CPU structures.
      */
-    size = (_SMP_Processor_count) * sizeof(Per_CPU_Control);
+    size = (rtems_configuration_smp_maximum_processors) * sizeof(Per_CPU_Control);
     memset( _Per_CPU_Information, '\0', size );
 
     /*

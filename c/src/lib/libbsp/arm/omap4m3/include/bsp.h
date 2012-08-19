@@ -13,10 +13,16 @@
 #include <rtems.h>
 #include <rtems/console.h>
 #include <rtems/clockdrv.h>
+#include <bsp/omap4m3.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+#ifdef RTEMS_SMP
+  extern volatile unsigned int bsp_online_cpus;
+  extern volatile unsigned int bsp_ap_stack_end;
+#endif
 
 #define BSP_FEATURE_IRQ_EXTENSION
 

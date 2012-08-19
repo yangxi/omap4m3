@@ -5,7 +5,7 @@
  *  found in the file LICENSE in this distribution or at
  *  http://www.rtems.com/license/LICENSE.
  */
-
+#include <linux/io.h>
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kthread.h>
@@ -14,6 +14,10 @@
 MODULE_LICENSE("BSD");
 
 struct rproc *dummy_rproc = NULL;
+
+#define M3_RSTCTRL		0x4a306910
+#define OMAP2_L4_IO_OFFSET	0xb2000000
+#define OMAP2_L4_IO_ADDRESS(pa)	IOMEM((pa) + OMAP2_L4_IO_OFFSET)
 
 static int __init rproc_init(void) {
 
@@ -29,10 +33,14 @@ static int __init rproc_init(void) {
 }
 
 static void rproc_exit(void) {
+  volatile unsigned int *r = OMAP2_L4_IO_ADDRESS(M3_RSTCTRL);
   printk(KERN_ALERT "rproc leaving\n");
 
   //Release the system, shutdown remote core.
-  if (dummy_rproc != NULL){
+  if (dummy_rproc != NULL){    
+    printk(KERN_ALERT "Reset Cortex M3 Core2,%x\n",*r);
+    *r |= 0x2;    
+    printk(KERN_ALERT "RSTCTRL reg after reset %x\n",*r);
     printk(KERN_ALERT "Put rproc handle\n");
     rproc_put(dummy_rproc);
   }

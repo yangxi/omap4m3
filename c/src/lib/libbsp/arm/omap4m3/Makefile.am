@@ -103,6 +103,12 @@ libbsp_a_SOURCES += ../../../libcpu/shared/src/cache_manager.c
 libbsp_a_SOURCES += ../../../libcpu/arm/shared/cache/cache_.h
 libbsp_a_CPPFLAGS += -I$(srcdir)/../../../libcpu/arm/shared/include
 
+# SMP
+if HAS_SMP
+libbsp_a_SOURCES += smp/getcpuid.c
+libbsp_a_SOURCES += smp/smp_omap4m3.c
+endif
+
 ###############################################################################
 #                  Special Rules                                              #
 ###############################################################################

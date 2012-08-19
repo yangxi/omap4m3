@@ -208,9 +208,18 @@ reset:
 
 #elif defined(ARM_MULTILIB_ARCH_V7M)
 
+#if defined(RTEMS_SMP) && defined(BSP_OMAP4M3_SMP)
+    #define ENABLE_SMP
+    #define CPUID_REG (0xe00fe000) 
+#endif
+
 	.syntax	unified
 
 	.extern	bsp_stack_main_end
+#if defined(ENABLE_SMP)
+	.extern bsp_online_cpus
+	.extern bsp_ap_stack_end
+#endif	
 
 	.thumb
 
@@ -244,6 +253,22 @@ _start:
 
 	ldr	sp, =bsp_stack_main_end
 	ldr	lr, =bsp_start_hook_0_done + 1
+#ifdef ENABLE_SMP
+	/*
+	*set cpuid register, increase the number of online cpus,
+	*and set stack for application processors.
+	*/
+	ldr	r1, =bsp_online_cpus
+	ldr	r2, =CPUID_REG	
+	ldr	r0, [r1]
+	str	r0, [r2]
+	add	r0, r0, 1 
+	str	r0, [r1]
+	ldr	r1, =bsp_ap_stack_end
+	cmp	r0, 2
+	it eq
+	ldreq	sp, [r1]
+#endif	
 	b	bsp_start_hook_0
 
 bsp_start_hook_0_done:

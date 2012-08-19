@@ -129,7 +129,7 @@
 
 #define CPU_HAS_HARDWARE_INTERRUPT_STACK FALSE
 
-#define CPU_ALLOCATE_INTERRUPT_STACK FALSE
+#define CPU_ALLOCATE_INTERRUPT_STACK TRUE
 
 #define CPU_ISR_PASSES_FRAME_POINTER 0
 
@@ -446,6 +446,11 @@ static inline uint32_t CPU_swap_u32( uint32_t value )
   return value;
 #endif
 }
+
+#ifdef RTEMS_SMP
+  #define _CPU_Context_switch_to_first_task_smp( _the_context ) \
+     _CPU_Context_first_task_smp_restore( (_the_context) );
+#endif
 
 static inline uint16_t CPU_swap_u16( uint16_t value )
 {

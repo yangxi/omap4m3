@@ -38,7 +38,6 @@ void rtems_smp_run_first_task(int cpu)
    */
   heir              = _Thread_Heir;
   _Thread_Executing = heir;
-
   _CPU_Context_switch_to_first_task_smp( &heir->Registers );
 }
 
@@ -104,7 +103,6 @@ void rtems_smp_process_interrupt(void)
 
   level = _SMP_lock_spinlock_simple_Obtain( &_Per_CPU_Information[cpu].lock );
   message = _Per_CPU_Information[cpu].message;
-
   #if defined(RTEMS_DEBUG)
     {
       void *sp = __builtin_frame_address(0);

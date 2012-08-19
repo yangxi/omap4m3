@@ -210,7 +210,7 @@ uint32_t boot_card(
   /*
    *  Initialize RTEMS data structures
    */
-  rtems_initialize_data_structures();
+  rtems_initialize_data_structures();    
 
   /*
    *  Initialize the C library for those BSPs using the shared
