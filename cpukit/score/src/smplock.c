@@ -93,6 +93,7 @@ ISR_Level _SMP_lock_spinlock_simple_Obtain(
      SMP_CPU_SWAP( lock, value, previous );
      RTEMS_COMPILER_MEMORY_BARRIER();
    } while (previous == 1);
+
   return level;
 }
 

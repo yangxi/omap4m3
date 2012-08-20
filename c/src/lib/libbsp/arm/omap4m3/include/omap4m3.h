@@ -36,13 +36,9 @@ extern "C" {
 #define L4_IO_VIRADDR (0xffc00000)
 #define L4_IO_SIZE    (0x400000)
 
-  /*map Cortex M3 subsystem config IO space to 0xffb00000*/
-#define M3_IO_PHYADDR (0x55080000)
-  //#define M3_IO_VIRADDR (0xffb80000)
+  /*generate/clear ipi interrupt between m3 cores*/
 #define M3_IO_VIRADDR (0x55080000)
 #define M3_IO_SIZE (0x20000)
-
-  /*generate/clear ipi interrupt between m3 cores*/
 #define M3_IPI_CORE0 (M3_IO_VIRADDR + 0x1000)
 #define M3_IPI_CORE1 (M3_IO_VIRADDR + 0x1002)
 #define IPI_ISR_NUM (3)

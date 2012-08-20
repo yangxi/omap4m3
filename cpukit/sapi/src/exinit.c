@@ -106,13 +106,17 @@ void rtems_initialize_data_structures(void)
    *  is even attempted to be printed.
    */
   _Debug_Manager_initialization();
+
   _API_extensions_Initialization();
+
   _Thread_Dispatch_initialization();
+
   /*
    *  Before this is called, we are not allowed to allocate memory
    *  from the Workspace because it is not initialized.
    */
   _Workspace_Handler_initialization();
+
   #if defined(RTEMS_SMP)
     _SMP_Handler_initialize();
   #endif

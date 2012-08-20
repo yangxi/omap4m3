@@ -119,7 +119,6 @@ uint32_t _Thread_Dispatch_set_disable_level(uint32_t value)
    * If we need the dispatch level to go lower
    * call increment method the desired number of times.
    */
-
   while ( value < _Thread_Dispatch_disable_level ) {
     _Thread_Dispatch_decrement_disable_level();
   }

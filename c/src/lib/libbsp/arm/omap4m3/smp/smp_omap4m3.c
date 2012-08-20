@@ -19,12 +19,13 @@ volatile unsigned int bsp_online_cpus = 0;
 volatile unsigned int bsp_ap_stack_end = 0;
 
 void printk(const char *, ...);
-
-#ifdef 0
-#define Debug printk
-#endif
-
 static void m3_ap_ipi_handler(void);
+
+#if 0
+#define Debug(format,...) printk( format, __VA_ARGS__)
+#else
+#define Debug(format,...)
+#endif
 
 void bsp_smp_secondary_cpu_initialize(int cpu)
 {

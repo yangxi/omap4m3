@@ -14,8 +14,10 @@
 #include <bsp/linker-symbols.h>
 
 
-#ifdef 0
-#define Debug printk
+#if 0
+#define Debug(format,...) printk( format, __VA_ARGS__)
+#else
+#define Debug(format,...)
 #endif
 
 
@@ -77,5 +79,3 @@ void bsp_reset(void)
   /*Do nothing to reset*/
   /*Linux side could shutdown RTEMS via remoteproce*/
 }
-
-
