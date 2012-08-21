@@ -39,6 +39,8 @@ static void rproc_exit(void) {
   //Release the system, shutdown remote core.
   if (dummy_rproc != NULL){
     printk(KERN_ALERT "Reset Cortex M3 Core2,%x\n",*r);
+    //Before we shutdown the main M3 core, have to turn off
+    //the second M3 cores first.
     *r |= 0x2;
     printk(KERN_ALERT "RSTCTRL reg after reset %x\n",*r);
     printk(KERN_ALERT "Put rproc handle\n");
