@@ -1,6 +1,6 @@
 ## Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.69])
 AC_INIT([rtems],[_RTEMS_VERSION],[http://www.rtems.org/bugzilla])
 AC_CONFIG_SRCDIR([c])
 RTEMS_TOP([.])
@@ -14,7 +14,7 @@ AS_IF([test -f aclocal/version.m4],[
 ])
 
 AC_CANONICAL_TARGET([])
-AM_INIT_AUTOMAKE([no-define foreign dist-bzip2 no-dist-gzip 1.11.1])
+AM_INIT_AUTOMAKE([no-define foreign dist-bzip2 no-dist-gzip 1.12.2])
 AM_MAINTAINER_MODE
 
 ## These option are only in here to let --help report all supported

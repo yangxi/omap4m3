@@ -1,12 +1,12 @@
 ## Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.69])
 AC_INIT([rtems-c-src-lib-libbsp-powerpc-gen83xx],[_RTEMS_VERSION],[http://www.rtems.org/bugzilla])
 AC_CONFIG_SRCDIR([bsp_specs])
 RTEMS_TOP(../../../../../..)
 
 RTEMS_CANONICAL_TARGET_CPU
-AM_INIT_AUTOMAKE([no-define nostdinc foreign 1.11.1])
+AM_INIT_AUTOMAKE([no-define nostdinc foreign 1.12.2])
 RTEMS_BSP_CONFIGURE
 
 RTEMS_PROG_CC_FOR_TARGET
@@ -35,7 +35,12 @@ RTEMS_BSPOPTS_SET([MPC83XX_BOARD_MPC8309SOM],[mpc8309som],[1])
 RTEMS_BSPOPTS_HELP([MPC83XX_BOARD_MPC8309SOM],
 [if defined, then use settings for the MPC8309SOM board])
 
+RTEMS_BSPOPTS_SET([MPC83XX_BOARD_BR_UID],[br_uid],[1])
+RTEMS_BSPOPTS_HELP([MPC83XX_BOARD_BR_UID],
+[if defined, then use settings for the BR UID board])
+
 RTEMS_BSPOPTS_SET([MPC83XX_CHIP_TYPE],[mpc8309som],[8309])
+RTEMS_BSPOPTS_SET([MPC83XX_CHIP_TYPE],[br_uid],[8309])
 RTEMS_BSPOPTS_SET([MPC83XX_CHIP_TYPE],[mpc8349eamds],[8349])
 RTEMS_BSPOPTS_SET([MPC83XX_CHIP_TYPE],[hsc_cm01],[8349])
 RTEMS_BSPOPTS_SET([MPC83XX_CHIP_TYPE],[*],[8313])

@@ -115,7 +115,7 @@ static inline void lpc32xx_micro_seconds_delay(unsigned us)
   #define LPC32XX_HCLKPLL_CTRL_INIT_VALUE \
     (HCLK_PLL_POWER | HCLK_PLL_DIRECT | HCLK_PLL_M(16 - 1))
   #define LPC32XX_HCLKDIV_CTRL_INIT_VALUE \
-    (HCLK_DIV_HCLK(2 - 1) | HCLK_DIV_PERIPH_CLK(16 - 1) | HCLK_DIV_DDRAM_CLK(1))
+    (HCLK_DIV_HCLK(2 - 1) | HCLK_DIV_PERIPH_CLK(16 - 1) | HCLK_DIV_DDRAM_CLK(0))
 #else
   #error "unexpected main oscillator frequency"
 #endif
@@ -136,7 +136,15 @@ uint32_t lpc32xx_hclk(void);
 
 uint32_t lpc32xx_arm_clk(void);
 
-uint32_t lpc32xx_dram_clk(void);
+uint32_t lpc32xx_ddram_clk(void);
+
+typedef enum {
+  LPC32XX_NAND_CONTROLLER_NONE,
+  LPC32XX_NAND_CONTROLLER_MLC,
+  LPC32XX_NAND_CONTROLLER_SLC
+} lpc32xx_nand_controller;
+
+void lpc32xx_select_nand_controller(lpc32xx_nand_controller nand_controller);
 
 void bsp_restart(void *addr);
 
@@ -169,7 +177,8 @@ extern uint32_t lpc32xx_magic_zero_size [];
    *
    * The usage is application specific.
    */
-  extern uint8_t lpc32xx_scratch_area [LPC32XX_SCRATCH_AREA_SIZE];
+  extern uint8_t lpc32xx_scratch_area [LPC32XX_SCRATCH_AREA_SIZE]
+    __attribute__((aligned(32)));
 #endif
 
 #define LPC32XX_DO_STOP_GPDMA \

@@ -1,6 +1,6 @@
 ## Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.69])
 AC_INIT([rtems-c-src-tests-libtests],[_RTEMS_VERSION],[http://www.rtems.org/bugzilla])
 AC_CONFIG_SRCDIR([cpuuse])
 AC_CONFIG_HEADER([config.h])
@@ -8,7 +8,7 @@ RTEMS_TOP([../..],[..])
 
 RTEMS_CANONICAL_TARGET_CPU
 
-AM_INIT_AUTOMAKE([no-define foreign 1.11.1])
+AM_INIT_AUTOMAKE([no-define foreign 1.12.2])
 AM_MAINTAINER_MODE
 
 RTEMS_ENABLE_CXX
@@ -41,6 +41,7 @@ AM_CONDITIONAL(NETTESTS,test "$rtems_cv_RTEMS_NETWORKING" = "yes")
 
 # Explicitly list all Makefiles here
 AC_CONFIG_FILES([Makefile
+mghttpd01/Makefile
 block15/Makefile
 block14/Makefile
 block13/Makefile

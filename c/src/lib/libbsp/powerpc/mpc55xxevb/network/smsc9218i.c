@@ -1529,10 +1529,10 @@ static void smsc9218i_interrupt_init(
 #endif
   pcr.B.ODE = 0;
   pcr.B.HYS = 0;
-  pcr.B.SRC = 3;
+  pcr.B.SRC = 0;
   pcr.B.WPE = 0;
   pcr.B.WPS = 1;
-  SIU.PCR [193].R = pcr.R;
+  SIU.PCR [SMSC9218I_IRQ_PIN].R = pcr.R;
 
   /* DMA/Interrupt Request Select */
   rtems_interrupt_disable(level);
@@ -1600,7 +1600,7 @@ static void smsc9218i_interrupt_init(
 
 static void smsc9218i_reset_signal(bool signal)
 {
-  SIU.GPDO [186].R = signal ? 1 : 0;
+  SIU.GPDO [SMSC9218I_RESET_PIN].R = signal ? 1 : 0;
 }
 
 static void smsc9218i_reset_signal_init(void)
@@ -1617,11 +1617,11 @@ static void smsc9218i_reset_signal_init(void)
 #endif
   pcr.B.ODE = 0;
   pcr.B.HYS = 0;
-  pcr.B.SRC = 3;
+  pcr.B.SRC = 0;
   pcr.B.WPE = 1;
   pcr.B.WPS = 1;
 
-  SIU.PCR [186].R = pcr.R;
+  SIU.PCR [SMSC9218I_RESET_PIN].R = pcr.R;
 }
 
 static void smsc9218i_hardware_reset(volatile smsc9218i_registers *regs)
@@ -1668,6 +1668,12 @@ static void smsc9218i_interface_init(void *arg)
       MII_ANAR,
       ANAR_TX_FD | ANAR_TX | ANAR_10_FD | ANAR_10 | ANAR_CSMA
     );
+
+#ifdef SMSC9218I_ENABLE_LED_OUTPUTS
+    regs->gpio_cfg = SMSC9218I_HW_CFG_LED_1
+      | SMSC9218I_HW_CFG_LED_2
+      | SMSC9218I_HW_CFG_LED_3;
+#endif
 
     /* Initialize interrupts */
     smsc9218i_interrupt_init(e, regs);
@@ -1788,6 +1794,33 @@ static void smsc9218i_interface_stats(smsc9218i_driver_entry *e)
   printf("frame compact count:       %u\n", jc->frame_compact_count);
 }
 
+static void smsc9218i_interface_off(struct ifnet *ifp)
+{
+  smsc9218i_driver_entry *e = (smsc9218i_driver_entry *) ifp->if_softc;
+  rtems_status_code sc = RTEMS_SUCCESSFUL;
+  rtems_interrupt_level level;
+  union SIU_DIRER_tag direr = MPC55XX_ZERO_FLAGS;
+
+  /* remove interrupt handler */
+  sc = rtems_interrupt_handler_remove(
+    MPC55XX_IRQ_SIU_EXTERNAL_0,
+    smsc9218i_interrupt_handler,
+    e
+  );
+  ASSERT_SC(sc);
+
+  mpc55xx_edma_release_channel(
+    &e->edma_receive
+  );
+
+  mpc55xx_edma_release_channel(
+    &e->edma_transmit
+  );
+
+  /* set in reset state */
+  smsc9218i_reset_signal(false);
+}
+
 static int smsc9218i_interface_ioctl(
   struct ifnet *ifp,
   ioctl_command_t command,
@@ -1808,12 +1841,11 @@ static int smsc9218i_interface_ioctl(
       ether_ioctl(ifp, command, data);
       break;
     case SIOCSIFFLAGS:
-      if (ifp->if_flags & IFF_RUNNING) {
-        /* TODO: off */
-      }
       if (ifp->if_flags & IFF_UP) {
         ifp->if_flags |= IFF_RUNNING;
         /* TODO: init */
+      } else {
+    	smsc9218i_interface_off(ifp);
       }
       break;
     case SIO_RTEMS_SHOW_STATS:

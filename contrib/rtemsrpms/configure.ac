@@ -2,7 +2,7 @@ m4_define([M4_RTEMS_API],[4.7])
 m4_define([M4_RTEMS_VERSION],[4.6.99.3])
 m4_define([M4_RTEMS_RELEASE],[0])
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.69])
 AC_INIT([rtemsrpms],[M4_RTEMS_RELEASE],[http://www.rtems.org/bugzilla])
 AC_CONFIG_AUX_DIR(.)
 
@@ -10,7 +10,7 @@ AC_CANONICAL_HOST
 
 AC_PREFIX_DEFAULT([/opt/rtems-][M4_RTEMS_API])
 
-AM_INIT_AUTOMAKE([1.11.1])
+AM_INIT_AUTOMAKE([1.12.2])
 
 rpmprefix="[rtems-]M4_RTEMS_API[-]"
 
