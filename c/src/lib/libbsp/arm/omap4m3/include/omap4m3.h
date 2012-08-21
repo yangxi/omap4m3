@@ -55,7 +55,7 @@ extern "C" {
 #define HW_SPIN_SYSSTATUS (HW_SPIN_BASE + 0X14)
 #define HW_SPIN_REG(x) (HW_SPIN_BASE + 0x0800+ 4*(x))
 
-  
+
 
   /*Reset register*/
 #define RM_MPU_M3_RSTCTRL (0x6910 + L4_WKUP_VIRADDR)
@@ -68,7 +68,7 @@ extern "C" {
     _previous = *_address; \
     *_address = _value;\
     TOUCH_REG(HW_SPIN_REG(0)) = 0;\
-    } while (0) 
+    } while (0)
 
   /* Resource info: Must match include/linux/remoteproc.h: */
 #define TYPE_CARVEOUT    0

@@ -37,13 +37,13 @@ void bsp_smp_secondary_cpu_initialize(int cpu)
     BSP_ARMV7M_IRQ_PRIORITY_DEFAULT,
     m3_ap_ipi_handler
   );
-  
+
   bsp_interrupt_vector_enable(IPI_ISR_NUM);
 }
 
 
 int bsp_smp_initialize(int maximum)
-{  
+{
   Debug("bsp_smp_initialize(%d)\n", maximum);
   if ( rtems_configuration_smp_maximum_processors > 1 ){
     bsp_ap_stack_end = _Per_CPU_Information_p[1]->interrupt_stack_high;
@@ -59,7 +59,6 @@ int bsp_smp_initialize(int maximum)
 }
 
 
-/*IRQ 19 on Core1 can be interupted by writing register CORTEXM3_CTRL_REG(0x5508 1000)*/
 
 static void m3_ap_ipi_handler(void)
 {
@@ -81,7 +80,7 @@ void bsp_smp_interrupt_cpu(int cpu)
 }
 
 void bsp_smp_broadcast_interrupt(void)
-{  
+{
   Debug("BC to cpu 1\n");
   bsp_smp_interrupt_cpu(1);
   Debug("cpu 0 handle broadcast\n");
@@ -97,26 +96,23 @@ void bsp_smp_delay(int max)
 }
 
 void bsp_smp_wait_for( volatile unsigned int *address,
-		       unsigned int desired,
-		       int maximum_usecs)
+                       unsigned int desired,
+                       int maximum_usecs)
 {
   volatile unsigned int i;
-  
   if (desired == RTEMS_BSP_SMP_FIRST_TASK){
     while(*address!=desired)
-      for(i=0;i<1000000;i++)
-	;
+      for(i=0;i<1000000;i++);
     while( _ARMV7M_NVIC_Is_pending(3) == 0)
-      ;   
+      ;
     TOUCH_REG16(M3_IPI_CORE1) &= ~(0x1);
     _ARMV7M_NVIC_Clear_pending(3);
-    Debug("IRQ 3 is %d,%d\n", _ARMV7M_NVIC_Is_pending(3), _ARMV7M_NVIC_Is_active(3));
     rtems_smp_process_interrupt();
-    //    __builtin_unreachable();
-    Debug("I should not here\n");
+    Debug("Wrong way, go back.\n");
+    while(1);
     /*never return here*/
   }
-  
+
   /*for other message, just fall in the loop*/
   while(*address!=desired)
     for(i=0;i<1000000;i++)
@@ -144,7 +140,7 @@ void __attribute__((naked)) _CPU_Context_first_task_smp_restore(
   Debug("First task\n");
   _ISR_Nest_level = 0;
   _Thread_Dispatch_disable_level = 1;
-  _ISR_Enable_on_this_core(0);		
+  _ISR_Enable_on_this_core(0);
   _ARMV7M_Start_multitasking(&_CPU_Context_ap, heir);
   __builtin_unreachable();
 }

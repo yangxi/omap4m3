@@ -9,6 +9,7 @@
 
 
 int bsp_smp_processor_id(void)
-{  
+{
   return TOUCH_REG(CPUID_REG);
 }
+

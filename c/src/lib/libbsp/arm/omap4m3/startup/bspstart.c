@@ -28,16 +28,15 @@ const static struct resource_table resources __attribute__ ((used,section(".reso
   1, /* 1st version */
   3, /* number of entries in the table */
   0, 0, /* reserved */
-	/* offsets */
+  /* offsets */
   {
     (unsigned int)(&(((struct resource_table *)(0))->data_cout)),
     (unsigned int)(&(((struct resource_table *)(0))->l4_wkup)),
     (unsigned int)(&(((struct resource_table *)(0))->trace)),
-  },	
+  },
   { TYPE_CARVEOUT, IMAGE_VIR_ADDR, IMAGE_PHY_ADDR, IMAGE_RESERVE_SIZE, 0x0, 0, "text" },
   { TYPE_DEVMEM, L4_IO_VIRADDR, L4_IO_PHYADDR, L4_IO_SIZE, 0x0, 0, "l4io" },
   { TYPE_TRACE, TRACEBUF_START, TRACEBUF_LEN, 0x0, "m3trace"},
-
 };
 
 
@@ -61,9 +60,9 @@ void BSP_START_TEXT_SECTION bsp_start_hook_0(void)
 
   if (cpuid == 1){
   Debug("cpu %d: stack at %p, cpu number %d\n",
-	 cpuid,
-	 &cpuid,
-	 bsp_online_cpus);  
+         cpuid,
+         &cpuid,
+         bsp_online_cpus);
     rtems_smp_secondary_cpu_initialize();
   }
 #endif

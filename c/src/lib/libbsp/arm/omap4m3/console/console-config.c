@@ -146,15 +146,15 @@ static void output_char(char c)
 void flashled(void)
 {
   unsigned int count;
-    *(int *) 0xfff10134 &= ~(1 << 8);   
+    *(int *) 0xfff10134 &= ~(1 << 8);
   while(1)
     {
       *(int *) 0xfff1013c ^= (1 << 8);
       for(count=0;count<10000;count++)
-	;
+         ;
     }
 }
- 
+
 BSP_output_char_function_type BSP_output_char = output_char;
 
 BSP_polling_getchar_function_type BSP_poll_char = NULL;
